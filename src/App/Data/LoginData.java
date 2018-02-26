@@ -1,6 +1,7 @@
 package App.Data;
 
 import App.Helpers.Messages;
+import App.Model.LoginModel;
 import java.sql.CallableStatement;
 
 /**
@@ -20,21 +21,23 @@ public class LoginData {
     private final Messages Msg = new Messages();
     
     //----MÉTODO PARA LOGUEARSE AL SISTEMA----//
-    public int Login(String UserName, String Password){
-        int x;
+    public LoginModel Login(LoginModel login){
+        LoginModel x;
         try {
             CallableStatement cst = CnMySql.getCn().prepareCall("{ call spLogin(?,?) }");
-            cst.setString(1, UserName);
-            cst.setString(2, Password);
+            cst.setString(1, login.getUserName());
+            cst.setString(2, login.getPassword());
             cst.execute();
             cst.getResultSet().next();
-            x = cst.getResultSet().getInt(1);
+            x = new LoginModel(login.getUserName(), login.getPassword(), cst.getResultSet().getInt(1));
             return x;
             
         } catch (Exception e) {
             Msg.ErrorMsg(e.toString());
-            return x = 0;
-        } 
+            return x = null;
+        } finally{
+            CnMySql.cerrarConexion();
+        }
     }
     
 }

@@ -2,9 +2,11 @@ package App;
 
 import java.io.IOException;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -19,18 +21,20 @@ public class SAIP_MASTER_MAIN extends Application {
     private Stage stage;  
     private BorderPane MainContainer;
     javafx.geometry.Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+    @FXML MediaView MediaViewLogin;
     
     @Override
     public void start(Stage stage) throws Exception {
          try {
             this.stage = stage;
-            stage.setTitle("SAIP");                     
+            
             initMainContainer();
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }     
     }
-
+    
+    @SuppressWarnings("CallToPrintStackTrace")
     public void initMainContainer() {
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -43,6 +47,9 @@ public class SAIP_MASTER_MAIN extends Application {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
             setViewCenter();
+            
+            
+           
         } catch (IOException e) {
             e.printStackTrace();
         }
